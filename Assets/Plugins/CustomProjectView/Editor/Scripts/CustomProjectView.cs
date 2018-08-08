@@ -8,12 +8,15 @@ namespace CustomProjectView
     public class CustomProjectView : EditorWindow
     {
         private static bool _isCustomFolderIconFlag = true;
+        private static bool _isColorToRow = true;
         private static bool _isCustomFolderIconSetting = true;
+        private static bool _isColorToRowSetting = true;
 
         [MenuItem("Tools/CustomProjectView")]
         static void Open()
         {
             _isCustomFolderIconSetting = _isCustomFolderIconFlag;
+            _isColorToRowSetting = _isColorToRow;
 
             GetWindow<CustomProjectView>();
         }
@@ -27,10 +30,17 @@ namespace CustomProjectView
                 _isCustomFolderIconSetting = EditorGUILayout.Toggle("フォルダアイコンの適応", _isCustomFolderIconSetting);
             }
             EditorGUILayout.EndVertical();
+            EditorGUILayout.BeginVertical(GUI.skin.box);
+            {
+                _isColorToRowSetting = EditorGUILayout.Toggle("行ごとに色を付ける", _isColorToRowSetting);
+            }
+            EditorGUILayout.EndVertical();
+
 
             if (GUILayout.Button("設定"))
             {
                 _isCustomFolderIconFlag = _isCustomFolderIconSetting;
+                _isColorToRow = _isColorToRowSetting;
                 Close();
             }
         }
@@ -58,6 +68,11 @@ namespace CustomProjectView
             if(_isCustomFolderIconFlag)
             {
                 CustomFolderIcon.CustomFolderIcon.OnGUI(guid, selectionRect);
+            }
+
+            if(_isColorToRow)
+            {
+                ColorToRow.ColorToRow.OnGUI(guid, selectionRect);
             }
         }
     }
